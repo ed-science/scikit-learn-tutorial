@@ -223,13 +223,13 @@ class LayoutFactory(object):
         replacers = []
         for handler in underscore_directories:
             for directory, dirs, files in self.dir_helper.walk(handler.path()):
-                for f in files:
-                    replacers.append(
-                            self.operations_factory.create_replacer(
-                                handler.relative_path(directory, f),
-                                handler.new_relative_path(directory, f)
-                                )
-                            )
+                replacers.extend(
+                    self.operations_factory.create_replacer(
+                        handler.relative_path(directory, f),
+                        handler.new_relative_path(directory, f),
+                    )
+                    for f in files
+                )
 
         # Build list of handlers to process all files
         filelist = []
